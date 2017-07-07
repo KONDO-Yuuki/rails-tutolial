@@ -1,5 +1,12 @@
-Rails:
-  Enabled: true
-
 Style/AndOr:
+  Description: 'Use &&/|| instead of and/or.'
+  StyleGuide: '#no-and-or-or'
   Enabled: false
+  
+Style/EmptyMethod:
+  Description: 'Checks the formatting of empty method definitions.'
+  StyleGuide: '#no-single-line-methods'
+  Enabled: false
+
+Rails:
+ Enabled: true
