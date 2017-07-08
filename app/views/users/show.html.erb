@@ -3,9 +3,18 @@
   <aside class="col-md-4">
     <section class="user_info">
       <h1>
-       <%= gravatar_for @user %>
-       <%= @user.name %><br>
+        <%= gravatar_for @user %>
+        <%= @user.name %><br>
       </h1>
     </section>
   </aside>
+  <div class="col-md-8">
+    <% if @user.bookposts.any? %>
+    <h3>Bookposts (<%= @user.bookposts.count %>)</h3>
+    <ol class="bookposts">
+      <%= render @bookposts %>
+    </ol>
+    <%= will_paginate @bookposts %>
+    <% end %>
+  </div>
 </div>
