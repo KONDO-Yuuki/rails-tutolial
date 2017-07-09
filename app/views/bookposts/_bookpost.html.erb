@@ -4,5 +4,9 @@
   <span class="content"><%= bookpost.content %></span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(bookpost.created_at) %> ago.
+    <% if current_user?(bookpost.user) %>
+      <%= link_to "delete", bookpost, method: :delete,
+                                   data: { confirm: "You sure?" } %>
+    <% end %>
   </span>
 </li>

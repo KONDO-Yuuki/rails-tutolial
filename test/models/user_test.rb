@@ -88,7 +88,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.authenticated?(:remember, '')
   end
 
-  test 'associated microposts should be destroyed' do
+  test 'associated bookposts should be destroyed' do
     @user.save
     @user.bookposts.create!(content: 'Lorem ipsum')
     assert_difference 'Bookpost.count', -1 do
