@@ -10,6 +10,10 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   has_many :bookposts, dependent: :destroy
+  has_many :active_user_relationships, class_name:  'UserRelationship',
+                                       foreign_key: 'follower_id',
+                                       dependent:   :destroy
+  has_many :following, through: :active_relationships, source: :followed
 
   # 渡された文字列のハッシュ値を返す
   def self.digest(string)
