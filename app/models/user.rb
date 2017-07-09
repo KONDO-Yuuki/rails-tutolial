@@ -13,8 +13,11 @@ class User < ApplicationRecord
   has_many :active_user_relationships, class_name:  'UserRelationship',
                                        foreign_key: 'follower_id',
                                        dependent:   :destroy
-  has_many :following, through: :active_relationships, source: :followed
-
+  has_many :following, through: :active_user_relationships, source: :followed
+  has_many :passive_user_relationships, class_name:  'UserRelationship',
+                                        foreign_key: 'followed_id',
+                                        dependent:   :destroy
+  has_many :followers, through: :passive_user_relationships, source: :follower
   # 渡された文字列のハッシュ値を返す
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -72,6 +75,21 @@ class User < ApplicationRecord
 
   def feed
     Bookpost.where('user_id = ?', id)
+  end
+
+  # ユーザーをフォローする
+  def follow(other_user)
+    active_user_relationships.create(followed_id: other_user.id)
+  end
+
+  # ユーザーをフォロー解除する
+  def unfollow(other_user)
+    active_user_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # 現在のユーザーがフォローしてたらtrueを返す
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   private
