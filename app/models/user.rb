@@ -74,7 +74,8 @@ class User < ApplicationRecord
   end
 
   def feed
-    Bookpost.where('user_id = ?', id)
+    Bookpost.where('user_id IN (:following_ids) OR user_id = :user_id',
+                   following_ids: following_ids, user_id: id)
   end
 
   # ユーザーをフォローする
